@@ -196,20 +196,12 @@ fn compute_proof<T, +HasherTrait<T>, +Drop<T>>(
     let mut next_level: Array<felt252> = get_next_level(nodes.span(), ref hasher);
 
     // Find neighbor node
-    let mut index_parent = 0;
-    let mut i = 0;
-    loop {
-        if i == index {
-            index_parent = i / 2;
-            if i % 2 == 0 {
-                proof.append(*nodes.at(i + 1));
-            } else {
-                proof.append(*nodes.at(i - 1));
-            }
-            break;
-        }
-        i += 1;
-    };
+    let index_parent = index / 2;
+    if index % 2 == 0 {
+        proof.append(*nodes.at(index + 1));
+    } else {
+        proof.append(*nodes.at(index - 1));
+    }
 
     compute_proof(next_level, hasher, index_parent, ref proof)
 }
